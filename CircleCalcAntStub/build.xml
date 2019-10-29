@@ -9,16 +9,15 @@
 	<property name="jar.mathlib" location="${jar.dir}/MISSING_JAR_NAME_HERE"/>
 
 	<target name="init">
-		<!-- write init task(s) here -->
+		<mkdir dir="${build.dir}"/>
 	</target>
 
 	<target name="compile" depends="init">
-		<!-- write compile task(s) here -->
+		<javac srcdir="${src.dir}" destdir="${build.dir}" classpath="commons-math-2.2.jar" includeantruntime="false"/>
 	</target>
 
 	<target name="dist" depends="compile">
-		<!-- add missing task(s) (if any) here -->
-
+		<mkdir dir="${dist.jar.dir}"/>
 		<jar jarfile="${dist.jarfile}" basedir="${build.dir}">
 			<manifest>
 				<attribute name="Main-Class" value="Circle"/>
@@ -26,7 +25,12 @@
 		</jar>
 	</target>
 	
-	<!-- add "run" target here" -->
-
-	<!-- add clean target here" -->
+	<target name="run" depends="dist">
+		<java jar="${dist.jarfile}" fork="true"/>
+	</target>
+	
+	<target name="clean">
+		<delete dir="${build.dir}"/>
+		<delete dir="${dist.dir}"/>
+	</target>
 </project>
